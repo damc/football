@@ -1,4 +1,3 @@
-import logging
 from best_player_calculator import BestPlayerCalculator
 from repositories import FixturesRepository, PlayersRepository
 from tabulate import tabulate
