@@ -52,6 +52,12 @@
       "visitorteam_position": null
     },
     "deleted": false,
+    "substitutions": {
+      "data": []
+    },
+    "goals": {
+      "data": []
+    },
     "lineup": {
       "data": [
         {
@@ -1188,6 +1194,12 @@
       "visitorteam_position": null
     },
     "deleted": false,
+    "substitutions": {
+      "data": []
+    },
+    "goals": {
+      "data": []
+    },
     "lineup": {
       "data": [
         {
@@ -2324,6 +2336,53 @@
       "visitorteam_position": null
     },
     "deleted": false,
+    "substitutions": {
+      "data": [
+        {
+          "id": 8782525,
+          "team_id": "309",
+          "type": "subst",
+          "fixture_id": 378846,
+          "player_in_id": 2460,
+          "player_in_name": "J. O'Brien",
+          "player_out_id": 6979,
+          "player_out_name": "Craig Samson",
+          "minute": 53,
+          "extra_minute": null,
+          "injuried": null
+        },
+        {
+          "id": 8782526,
+          "team_id": 309,
+          "type": "subst",
+          "fixture_id": 378846,
+          "player_in_id": 2461,
+          "player_in_name": "Second player",
+          "player_out_id": 12100,
+          "player_out_name": "Richard Tait",
+          "minute": 75,
+          "extra_minute": null,
+          "injuried": null
+        }
+      ]
+    },
+    "goals": {
+      "data": [
+        {
+          "id": 8782459,
+          "team_id": "309",
+          "type": "goal",
+          "fixture_id": 378846,
+          "player_id": 12100,
+          "player_name": "Richard Tait",
+          "player_assist_id": 6979,
+          "player_assist_name": "Craig Samson",
+          "minute": 30,
+          "extra_minute": null,
+          "result": null
+        }
+      ]
+    },
     "lineup": {
       "data": [
         {
@@ -2480,6 +2539,12 @@
       "visitorteam_position": null
     },
     "deleted": false,
+    "substitutions": {
+      "data": []
+    },
+    "goals": {
+      "data": []
+    },
     "lineup": {
       "data": [
         {

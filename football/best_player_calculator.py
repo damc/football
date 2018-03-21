@@ -3,10 +3,11 @@ from keras.constraints import non_neg
 from keras.layers import Dense
 from keras.models import Sequential
 from keras.optimizers import SGD
+from entities import LOCAL_TEAM, VISITOR_TEAM
 
 
 class BestPlayerCalculator:
-    EPOCHS_COUNT = 4
+    EPOCHS_COUNT = 32
 
     def __init__(self, max_players_count):
         self.players = {}
@@ -19,7 +20,8 @@ class BestPlayerCalculator:
                 1,
                 input_dim=self.first_layer_size,
                 use_bias=False,
-                kernel_constraint=non_neg()
+                kernel_constraint=non_neg(),
+                activation='linear'
             )
         )
 
@@ -55,7 +57,7 @@ class BestPlayerCalculator:
         return players_list[:count]
 
     def _prepare_samples(self, fixture):
-        fixture.substitutions.sort(key=lambda s: s.minute)
+        # fixture.substitutions.sort(key=lambda s: s.minute)
         substitutions_count = len(fixture.substitutions)
         samples = []
         for i in range(0, substitutions_count + 1):
@@ -88,15 +90,25 @@ class BestPlayerCalculator:
         return samples
 
     def _calculate_x(self, fixture, sample_minute_from, sample_minute_to):
+        if sample_minute_to < sample_minute_from:
+            raise ValueError(
+                "sample_minute_to can't be higher than sample_minute_from"
+            )
+
         x = np.zeros((self.first_layer_size,))
+
+        # Those two loops could be merged into one but this way the
+        # time complexity is better (because otherwise you would have
+        # to find out to which team the player belongs)
         for player in fixture.local_team_players:
+            # @todo change to player.node_id
             node_id = self.players[player.id].node_id
             x[node_id] = self._get_node_activation(
                 fixture,
                 player,
                 sample_minute_from,
                 sample_minute_to,
-                0
+                LOCAL_TEAM
             )
         for player in fixture.visitor_team_players:
             node_id = self.players[player.id].node_id
@@ -105,7 +117,7 @@ class BestPlayerCalculator:
                 player,
                 sample_minute_from,
                 sample_minute_to,
-                1
+                VISITOR_TEAM
             )
         return x
 
@@ -123,8 +135,9 @@ class BestPlayerCalculator:
             sample_minute_to
         )
         match_length = fixture.match_length
+        # @todo change match_length to standard_match_length
         ratio = minutes_played / match_length
-        return ratio if team == 0 else -ratio
+        return ratio if team == LOCAL_TEAM else -ratio
 
     def _calculate_y(self, fixture, sample_minute_from, sample_minute_to):
         result_before = fixture.get_result_in_minute(sample_minute_from)
@@ -141,6 +154,7 @@ class BestPlayerCalculator:
 
     @staticmethod
     def _calculate_weight(fixture, sample_minute_from, sample_minute_to):
+        # @todo change match_length to standard_match_length
         return (sample_minute_to - sample_minute_from) / fixture.match_length
 
     @staticmethod
@@ -172,7 +186,8 @@ class BestPlayerCalculator:
                 self.players[player.id].node_id = self.players_count
                 self.players_count += 1
 
-            if hasattr(self.players[player.id], 'occurences'):
-                self.players[player.id].occurences += 1
+            # @todo: move to separate method
+            if hasattr(self.players[player.id], 'occurrences'):
+                self.players[player.id].occurrences += 1
             else:
-                self.players[player.id].occurences = 1
+                self.players[player.id].occurrences = 1

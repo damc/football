@@ -64,41 +64,45 @@ def top_data_provider():
     top_count = 1
     expected_players = [zidane]
 
+    # more substitutions tests
+
+    # one big test
+
     data.append((fixtures, top_count, max_players_count, expected_players))
 
     return data
 
 
 @pt.mark.parametrize(
-    "fixtures, top_count, max_player_id, expected_players",
+    "fixtures, top_count, max_players_count, expected_players",
     top_data_provider()
 )
-def test_get_top_players_ids_returns_best_players(
+def test_get_top_players(
     fixtures,
     top_count,
-    max_player_id,
+    max_players_count,
     expected_players
 ):
     np.random.seed(500)
 
-    calculator = BestPlayerCalculator(max_player_id)
+    calculator = BestPlayerCalculator(max_players_count)
     calculator.add_fixtures(fixtures)
     returned_players = calculator.get_top_players(top_count)
-    for player in expected_players:
+    for player in expected_players:  # change to set
         assert player in returned_players
 
 
 @pt.mark.parametrize(
-    "local_team_score, visitor_team_score, expected_value",
+    "local_team_score, visitor_team_score, expected",
     [(2, 1, 10), (3, 0, 30), (1, 1, 0), (0, 0, 0), (0, 1, -10), (2, 3, -10)]
 )
-def test_convert_result_to_int_returns_correct_values(
+def test_convert_result_to_int(
     local_team_score,
     visitor_team_score,
-    expected_value
+    expected
 ):
-    value = BestPlayerCalculator._convert_result_to_int(
+    result = BestPlayerCalculator._convert_result_to_int(
         local_team_score,
         visitor_team_score
     )
-    assert value == expected_value
+    assert result == expected
