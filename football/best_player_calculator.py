@@ -1,46 +1,32 @@
-"""
-Creates a ranking of the best players
-"""
-
 import numpy as np
+from keras.constraints import non_neg
 from keras.layers import Dense
 from keras.models import Sequential
 from keras.optimizers import SGD
-# from entities import LOCAL_TEAM, VISITOR_TEAM
-
-
-LOCAL_TEAM = 0
-VISITOR_TEAM = 1
+from entities import LOCAL_TEAM, VISITOR_TEAM
 
 
 class BestPlayerCalculator:
-    """
-    Creates a ranking of the best players
-
-    It takes a list of matches (fixtures) as an input and outputs the
-    list of the best players in the world.
-    """
-
     STANDARD_MATCH_LENGTH = 90
     EPOCHS_COUNT = 32
     LEARNING_RATE = 0.01
 
-    def __init__(self, max_players_count):
-        """
-        Class constructor
+    CONVERT_RESULT_POWER = 0.8
+    CONVERT_RESULT_MULTIPLY = 10
 
-        :param max_players_count: int
-        """
+    def __init__(self, max_players_count):
         self.players = {}
         self.players_count = 0
         self.first_layer_size = max_players_count + 1
         self.testing_loss = 0
+        self.testing_fixtures_count = 0
 
         self.model = Sequential()
         self.model.add(
             Dense(
                 1,
                 input_dim=self.first_layer_size,
+                kernel_constraint=non_neg(),
                 use_bias=False,
                 activation='linear'
             )
@@ -66,6 +52,7 @@ class BestPlayerCalculator:
             y[key] = data['y']
             weights[key] = data['weight']
 
+        # @todo use fit_generator()
         self.model.fit(
             x,
             y,
@@ -80,8 +67,7 @@ class BestPlayerCalculator:
             if not self._can_fixture_be_evaluated(fixture):
                 continue
             prepared += self._prepare_samples(fixture)
-
-            # @todo count ommited fixtures
+            self.testing_fixtures_count += 1
 
         # @todo Don't repeat yourself
 
@@ -115,6 +101,11 @@ class BestPlayerCalculator:
         players_list.sort(key=lambda p: p.skill, reverse=True)
 
         return players_list[:count]
+
+    def get_test_loss_for_one_fixture(self):
+        if self.testing_fixtures_count:
+            return self.testing_loss / self.testing_fixtures_count
+        return None
 
     def _prepare_samples(self, fixture):
         substitutions_count = len(fixture.substitutions)
@@ -151,11 +142,6 @@ class BestPlayerCalculator:
         return samples
 
     def _calculate_x(self, fixture, sample_minute_from, sample_minute_to):
-        if sample_minute_to < sample_minute_from:
-            raise ValueError(
-                "sample_minute_to can't be higher than sample_minute_from"
-            )
-
         x = np.zeros((self.first_layer_size,))
         all_players = fixture.get_all_players()
         for player in all_players:
@@ -222,9 +208,31 @@ class BestPlayerCalculator:
         sample_length = sample_minute_to - sample_minute_from
         return sample_length / self.STANDARD_MATCH_LENGTH
 
-    @staticmethod
-    def _convert_result_to_int(local_team_score, visitor_team_score):
-        return 10 * (local_team_score - visitor_team_score)
+    def _convert_result_to_int(self, local_team_score, visitor_team_score):
+        if local_team_score > visitor_team_score:
+            ratio = (
+                local_team_score / visitor_team_score - 1
+                if visitor_team_score > 0
+                else local_team_score
+            )
+        else:
+            ratio = (
+                visitor_team_score / local_team_score - 1
+                if local_team_score > 0
+                else visitor_team_score
+            )
+
+        multiplied = round((
+            ratio **
+            self.CONVERT_RESULT_POWER *
+            self.CONVERT_RESULT_MULTIPLY
+        ))
+
+        return (
+            multiplied
+            if local_team_score > visitor_team_score
+            else -multiplied
+        )
 
     def _can_fixture_be_evaluated(self, fixture):
         for player in fixture.get_all_players():

@@ -1,0 +1,56 @@
+Fixtures count: 6200
+Invalid fixtures count: 13
+Players count: 10863
+
+  place  full name                            team                nationality    position      occurrences    skill
+-------  -----------------------------------  ------------------  -------------  ----------  -------------  -------
+      1  Lionel Andrés Messi Cuccittini       Barcelona           Argentina      Attacker              107  6.2868
+      2  Joseba Llorente Etxarri                                  Spain                                 86  4.81083
+      3  Víctor Valdés Arribas                                    Spain                                117  4.62229
+      4  Mesut Özil                           Arsenal             Germany        Midfielder            101  4.40854
+      5  F. Inzaghi                                               Italy                                 70  4.36227
+      6  Andrés Iniesta Luján                 Barcelona           Spain          Midfielder             95  4.13386
+      7  Daniel Alves da Silva                PSG                 Brazil         Defender              106  4.13167
+      8  Theo  Walcott                        Everton             England        Attacker               75  4.10256
+      9  Frank  Lampard                                           England                               95  4.06616
+     10  Karim Benzema                        Real Madrid         France         Attacker               95  3.99596
+     11  Jose Maria Gutierrez Hernandez                           Spain                                 58  3.96661
+     12  Nemanja Vidic                                            Serbia                                95  3.95333
+     13  Carles Puyol i Saforcada                                 Spain                                 96  3.95326
+     14  Cristiano Ronaldo dos Santos Aveiro  Real Madrid         Portugal       Attacker              101  3.9433
+     15  Alexandre Dimitri Song-Billong       Rubin Kazan'        Cameroon       Midfielder             99  3.92551
+     16  Germán Gustavo Denis                                     Argentina                             74  3.82125
+     17  David Villa Sánchez                                      Spain                                 98  3.77826
+     18  Thierry  Henry                                           France                                66  3.73798
+     19  Mirko Vucinic                                            Montenegro                            84  3.72564
+     20  A. Nesta                                                 Italy                                 49  3.657
+     21  Xavier Hernández Creus                                   Spain                                114  3.56193
+     22  Eden Hazard                          Chelsea             Belgium        Midfielder             99  3.55037
+     23  Claudio Miguel Pizarro Bossio        Köln                Peru           Attacker               86  3.54239
+     24  Lukas Schmitz                        Fortuna Düsseldorf  Germany        Defender               47  3.537
+     25  Sebastian Kehl                       Borussia Dortmund   Germany        Midfielder             41  3.53529
+     26  Rafael Márquez Álvarez                                   Mexico                                51  3.52293
+     27  Robin van Persie                     Feyenoord           Netherlands    Attacker               66  3.45237
+     28  Giorgio Chiellini                    Juventus            Italy          Defender               94  3.35265
+     29  Francesc Fàbregas i Soler            Chelsea             Spain          Midfielder             83  3.33854
+     30  Ivica Olić                           1860 München        Croatia        Attacker               90  3.31684
+     31  Marek Hamšík                         Napoli              Slovakia       Midfielder             98  3.31617
+     32  Tom Huddlestone                      Derby County        England        Midfielder             76  3.29275
+     33  Mathieu Valbuena                     Fenerbahçe          France         Midfielder             98  3.29172
+     34  Nicolas Anelka                                           France                               109  3.26941
+     35  Raúl Albiol Tortajada                Napoli              Spain          Defender               87  3.26383
+     36  Felipe Salvador Caicedo Corozo       Lazio               Ecuador        Attacker               54  3.24019
+     37  Patrice Evra                         West Ham United     France         Defender              105  3.19304
+     38  Álvaro Arbeloa Coca                  West Ham United     Spain          Defender               93  3.1851
+     39  Joleon Lescott                                           England                               69  3.17679
+     40  Jakub Błaszczykowski                 Wolfsburg           Poland         Midfielder             81  3.16541
+     41  Igor Akinfeev                        CSKA Moskva         Russia         Goalkeeper             26  3.1586
+     42  Gervais Lombe Yao Kouassi                                Côte d'Ivoire                         95  3.13879
+     43  Ricardo Izecson dos Santos Leite                         Brazil                                67  3.11045
+     44  Martín Gastón Demichelis             Málaga              Argentina      Defender               74  3.10521
+     45  Vasili Berezutski                    CSKA Moskva         Russia         Defender               25  3.10263
+     46  Roman Weidenfeller                   Borussia Dortmund   Germany        Goalkeeper             88  3.0893
+     47  Rubén Gracia Calmache                Real Zaragoza       Spain          Midfielder             89  3.07503
+     48  Xabier Alonso Olano                                      Spain                                103  3.05291
+     49  John Arne  Semundseth Riise                              Norway                                97  3.02474
+     50  Marcelo Vieira da Silva Júnior       Real Madrid         Brazil         Defender               93  3.0178

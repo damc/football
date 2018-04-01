@@ -109,7 +109,7 @@ def test_get_top_players(
     np.random.seed(500)
 
     calculator = BestPlayerCalculator(max_players_count)
-    calculator.add_fixtures(fixtures)
+    calculator.add_training_fixtures(fixtures)
     returned_players = calculator.get_top_players(top_count)
     for player in expected_players:
         assert player in returned_players
@@ -117,14 +117,15 @@ def test_get_top_players(
 
 @pt.mark.parametrize(
     "local_team_score, visitor_team_score, expected",
-    [(2, 1, 10), (3, 0, 30), (1, 1, 0), (0, 0, 0), (0, 1, -10), (2, 3, -10)]
+    [(2, 1, 10), (3, 0, 24), (1, 1, 0), (0, 0, 0), (0, 1, -10), (2, 3, -6)]
 )
 def test_convert_result_to_int(
     local_team_score,
     visitor_team_score,
     expected
 ):
-    result = BestPlayerCalculator._convert_result_to_int(
+    bpc = BestPlayerCalculator(1)
+    result = bpc._convert_result_to_int(
         local_team_score,
         visitor_team_score
     )

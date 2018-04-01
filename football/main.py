@@ -7,9 +7,9 @@ python3 football/main.py
 Before using it, you need to have a subscription on Sportmonks.com
 and put your api token into api_token.txt file.
 
-You can adjust the variables 'league', 'date_from' and 'date_to' so
-that the script analyzes the fixtures only from the leagues and dates
-that you want to take into account.
+You can adjust the variables 'leagues', 'training_date_from' and
+'training_date_to' so that the script analyzes the fixtures only from
+the leagues and dates that you want to take into account.
 
 It writes the ranking to the file from 'file_to_save' variable or it
 prints the ranking to the standard output, if 'file_to_save' is None.
@@ -22,14 +22,14 @@ from collections import OrderedDict
 from os.path import dirname
 
 max_player_count = 15000
-# leagues = "2, 5, 8, 82, 163, 166, 301, 384, 564"
-leagues = "82"
-training_date_from = "2015-01-01"
-training_date_to = "2017-01-01"
+leagues = "2, 5, 8, 82, 163, 166, 301, 384, 564"
+training_date_from = "2015-09-01"
+training_date_to = "2018-04-01"
+testing = False
 testing_date_from = "2017-01-01"
 testing_date_to = "2017-06-01"
 displayed_players_count = 50
-file_to_save = dirname(__file__) + '/../results/bundesliga_2017.txt'
+file_to_save = dirname(__file__) + '/../results/all_2018_04_01.txt'
 batch_size = 30
 
 training_filter = (
@@ -56,27 +56,30 @@ players_repo = PlayersRepository()
 
 training_fixtures_count = fixtures_repo.get_total_count(training_filter)
 
+print("Adding training fixtures")
 batches_count = training_fixtures_count // batch_size + 1
 for i in range(batches_count):
-    print("Adding the training fixtures batch number " + str(i) + "...")
     fixtures = fixtures_repo.get_by_filter(
         training_filter,
         batch_size,
         batch_size * i
     )
     calculator.add_training_fixtures(fixtures)
+    print(str(round((i + 1) * 100 / batches_count)) + "%")
 
 testing_fixtures_count = fixtures_repo.get_total_count(testing_filter)
 
-batches_count = testing_fixtures_count // batch_size + 1
-for i in range(batches_count):
-    print("Adding the testing fixtures batch number " + str(i) + "...")
-    fixtures = fixtures_repo.get_by_filter(
-        testing_filter,
-        batch_size,
-        batch_size * i
-    )
-    calculator.add_testing_fixtures(fixtures)
+if testing:
+    print("Adding testing fixtures...")
+    batches_count = testing_fixtures_count // batch_size + 1
+    for i in range(batches_count):
+        fixtures = fixtures_repo.get_by_filter(
+            testing_filter,
+            batch_size,
+            batch_size * i
+        )
+        calculator.add_testing_fixtures(fixtures)
+        print(str(round((i + 1) * 100 / batches_count)) + "%")
 
 invalid_fixtures_count = fixtures_repo.invalid_data_count
 
@@ -85,7 +88,8 @@ print("All fixtures has been added.")
 print("Fixtures count: " + str(training_fixtures_count))
 print("Invalid fixtures count: " + str(invalid_fixtures_count))
 print("Players count: " + str(calculator.players_count))
-print("Testing loss: " + str(calculator.testing_loss))
+if testing:
+    print("Test loss: " + str(calculator.get_test_loss_for_one_fixture()))
 
 best_players = calculator.get_top_players(displayed_players_count)
 
