@@ -3,20 +3,36 @@ VISITOR_TEAM = 1
 
 
 class Player:
-    def __init__(self, id, first_name=None, last_name=None):
-        self.id = id
+    def __init__(
+        self,
+        identifier,
+        first_name=None,
+        last_name=None,
+        full_name=None,
+        nationality=None,
+        team_name=None,
+        position=None,
+    ):
+        if identifier is None:
+            raise ValueError("Player identifier can't be none")
+
+        self.identifier = identifier
         self.first_name = first_name
         self.last_name = last_name
+        self.full_name = full_name
+        self.nationality = nationality
+        self.team_name = team_name
+        self.position = position
 
     def __repr__(self):
         return (
             self.first_name + " " + self.last_name
             if self.first_name and self.last_name
-            else str(self.id)
+            else str(self.identifier)
         )
 
     def __eq__(self, other):
-        return self.id == other.id
+        return self.identifier == other.identifier
 
 
 class Substitution:
@@ -64,15 +80,16 @@ class Fixture:
         self.goals = goals
         self.match_length = match_length
 
-        self.substitutions.sort(key=lambda s: s.minute)
-        self.goals.sort(key=lambda g: g.minute)
-
         self._validate_substitutions()
+        self._validate_goals()
+
+        self.substitutions.sort(key=lambda s: s.minute)
+        if self.goals:
+            self.goals.sort(key=lambda g: g.minute)
+
         self._update_substitutes()
         self._update_minutes_in_and_out()
         self._update_match_length()
-
-        self._validate_goals()
 
     def get_minutes_played(self, player, minute_from=0, minute_to=None):
         if minute_to is None:
@@ -80,40 +97,29 @@ class Fixture:
         if minute_to < minute_from:
             raise ValueError("minute_to can't be higher than minute_from")
 
-        # @todo the player who came in can be changed as well
-        if player.id in self.players_came_in:
-            came_in = self.players_came_in[player.id]
-            return minute_to - max(came_in, minute_from)
-        if player.id in self.players_came_out:
-            came_out = self.players_came_out[player.id]
-            return min(came_out, minute_to) - minute_from
-        return minute_to - minute_from
+        upper_limit = minute_to
+        lower_limit = minute_from
+        if player.identifier in self.players_came_in:
+            came_in = self.players_came_in[player.identifier]
+            lower_limit = max(came_in, minute_from)
+        if player.identifier in self.players_came_out:
+            came_out = self.players_came_out[player.identifier]
+            upper_limit = min(came_out, minute_to)
+        return upper_limit - lower_limit
 
     def get_result_in_minute(self, minute):
         if self.goals is None:
             return (
-                {"local_team_score": 0, "visitor_team_score": 0}
-                if minute < self.match_length
-                else {
-                    "local_team_score": self.local_team_score,
-                    "visitor_team_score": self.visitor_team_score
-                }
+                (0, 0) if minute < self.match_length
+                else (self.local_team_score, self.visitor_team_score)
             )
 
-        # @todo sort it only once
         score = {LOCAL_TEAM: 0, VISITOR_TEAM: 0}
         for goal in self.goals:
             if minute < goal.minute:
                 break
-            if goal.team == LOCAL_TEAM:
-                score[LOCAL_TEAM] += 1
-            elif goal.team == VISITOR_TEAM:
-                score[VISITOR_TEAM] += 1
-        # @todo change to using LOCAL_TEAM and VISITOR_TEAM constants
-        return {
-            "local_team_score": score[LOCAL_TEAM],
-            "visitor_team_score": score[VISITOR_TEAM]
-        }
+            score[goal.team] += 1
+        return score[LOCAL_TEAM], score[VISITOR_TEAM]
 
     def get_all_players(self):
         return (
@@ -122,6 +128,12 @@ class Fixture:
             self.visitor_team_players +
             self.visitor_team_substitutes
         )
+
+    def get_local_team_players_and_substitutes(self):
+        return self.local_team_players + self.local_team_substitutes
+
+    def get_visitor_team_players_and_substitutes(self):
+        return self.visitor_team_players + self.visitor_team_substitutes
 
     def _update_substitutes(self):
         self.local_team_substitutes = []
@@ -137,8 +149,8 @@ class Fixture:
         self.players_came_out = {}
         for substitution in self.substitutions:
             minute = substitution.minute
-            self.players_came_in[substitution.player_in.id] = minute
-            self.players_came_out[substitution.player_out.id] = minute
+            self.players_came_in[substitution.player_in.identifier] = minute
+            self.players_came_out[substitution.player_out.identifier] = minute
 
     def _update_match_length(self):
         last_substitution_minute = (

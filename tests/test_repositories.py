@@ -3,7 +3,7 @@ import json
 from os.path import dirname
 from football.repositories import FixturesRepository
 from football.entities import Player, Fixture, Substitution, Goal
-from football.entities import LOCAL_TEAM, VISITOR_TEAM
+from football.entities import LOCAL_TEAM
 
 
 def test_get_by_filter(monkeypatch):

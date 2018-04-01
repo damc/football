@@ -2,8 +2,10 @@
 import requests
 import requests_cache
 import json
+from os.path import dirname
 
-api_token = 'VS6M3cmMmaYCZNBFU5TuyTgePQqpRGFiCT6ashGn4Nn21AragfsmO2CZhlWE'
+api_token_file = dirname(__file__) + '/../api_token.txt'
+api_token = open(api_token_file).read(100000)
 api_url = 'https://soccer.sportmonks.com/api/v2.0/'
 
 

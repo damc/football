@@ -1,18 +1,40 @@
+"""
+Creates a ranking of the best players
+"""
+
 import numpy as np
-from keras.constraints import non_neg
 from keras.layers import Dense
 from keras.models import Sequential
 from keras.optimizers import SGD
-from entities import LOCAL_TEAM, VISITOR_TEAM
+# from entities import LOCAL_TEAM, VISITOR_TEAM
+
+
+LOCAL_TEAM = 0
+VISITOR_TEAM = 1
 
 
 class BestPlayerCalculator:
+    """
+    Creates a ranking of the best players
+
+    It takes a list of matches (fixtures) as an input and outputs the
+    list of the best players in the world.
+    """
+
+    STANDARD_MATCH_LENGTH = 90
     EPOCHS_COUNT = 32
+    LEARNING_RATE = 0.01
 
     def __init__(self, max_players_count):
+        """
+        Class constructor
+
+        :param max_players_count: int
+        """
         self.players = {}
         self.players_count = 0
         self.first_layer_size = max_players_count + 1
+        self.testing_loss = 0
 
         self.model = Sequential()
         self.model.add(
@@ -20,30 +42,68 @@ class BestPlayerCalculator:
                 1,
                 input_dim=self.first_layer_size,
                 use_bias=False,
-                kernel_constraint=non_neg(),
                 activation='linear'
             )
         )
 
-        sgd = SGD(lr=0.01, decay=1e-6, momentum=0.9, nesterov=True)
+        sgd = SGD(self.LEARNING_RATE)
         self.model.compile(loss='mean_squared_error', optimizer=sgd)
 
-    def add_fixtures(self, fixtures):
+    def add_training_fixtures(self, fixtures):
         prepared = []
         for fixture in fixtures:
-            self._add_players(fixture.get_all_players())
+            self._update_players(fixture.get_all_players())
             prepared += self._prepare_samples(fixture)
 
         n = len(prepared)
 
         x = np.empty((n, self.first_layer_size))
         y = np.empty((n,))
+        weights = np.empty((n,))
 
         for key, data in enumerate(prepared):
             x[key] = data['x']
             y[key] = data['y']
+            weights[key] = data['weight']
 
-        self.model.fit(x, y, epochs=self.EPOCHS_COUNT, verbose=0)
+        self.model.fit(
+            x,
+            y,
+            epochs=self.EPOCHS_COUNT,
+            sample_weight=weights,
+            verbose=0
+        )
+
+    def add_testing_fixtures(self, fixtures):
+        prepared = []
+        for fixture in fixtures:
+            if not self._can_fixture_be_evaluated(fixture):
+                continue
+            prepared += self._prepare_samples(fixture)
+
+            # @todo count ommited fixtures
+
+        # @todo Don't repeat yourself
+
+        n = len(prepared)
+        if n == 0:
+            return None
+
+        x = np.empty((n, self.first_layer_size))
+        y = np.empty((n,))
+        weights = np.empty((n,))
+
+        for key, data in enumerate(prepared):
+            x[key] = data['x']
+            y[key] = data['y']
+            weights[key] = data['weight']
+
+        self.testing_loss += self.model.evaluate(
+            x,
+            y,
+            sample_weight=weights,
+            verbose=0
+        )
 
     def get_top_players(self, count):
         players_list = list(self.players.values())
@@ -57,7 +117,6 @@ class BestPlayerCalculator:
         return players_list[:count]
 
     def _prepare_samples(self, fixture):
-        # fixture.substitutions.sort(key=lambda s: s.minute)
         substitutions_count = len(fixture.substitutions)
         samples = []
         for i in range(0, substitutions_count + 1):
@@ -80,10 +139,12 @@ class BestPlayerCalculator:
                 sample_minute_to
             )
             weight = self._calculate_weight(
-                fixture,
                 sample_minute_from,
                 sample_minute_to
             )
+
+            if weight == 0:
+                continue
 
             samples.append({'x': x, 'y': y, 'weight': weight})
 
@@ -96,98 +157,94 @@ class BestPlayerCalculator:
             )
 
         x = np.zeros((self.first_layer_size,))
-
-        # Those two loops could be merged into one but this way the
-        # time complexity is better (because otherwise you would have
-        # to find out to which team the player belongs)
-        for player in fixture.local_team_players:
-            # @todo change to player.node_id
-            node_id = self.players[player.id].node_id
-            x[node_id] = self._get_node_activation(
+        all_players = fixture.get_all_players()
+        for player in all_players:
+            node_id = self.players[player.identifier].node_id
+            x[node_id] = self._calculate_x_for_player(
                 fixture,
                 player,
                 sample_minute_from,
-                sample_minute_to,
-                LOCAL_TEAM
-            )
-        for player in fixture.visitor_team_players:
-            node_id = self.players[player.id].node_id
-            x[node_id] = self._get_node_activation(
-                fixture,
-                player,
-                sample_minute_from,
-                sample_minute_to,
-                VISITOR_TEAM
+                sample_minute_to
             )
         return x
 
     @staticmethod
-    def _get_node_activation(
+    def _calculate_x_for_player(
             fixture,
             player,
             sample_minute_from,
-            sample_minute_to,
-            team
+            sample_minute_to
     ):
+        if player in fixture.get_local_team_players_and_substitutes():
+            team = LOCAL_TEAM
+        elif player in fixture.get_visitor_team_players_and_substitutes():
+            team = VISITOR_TEAM
+        else:
+            raise ValueError("Player doesn't belong to any team")
+
         minutes_played = fixture.get_minutes_played(
             player,
             sample_minute_from,
             sample_minute_to
         )
-        match_length = fixture.match_length
-        # @todo change match_length to standard_match_length
-        ratio = minutes_played / match_length
-        return ratio if team == LOCAL_TEAM else -ratio
+
+        if minutes_played > 0 and team == LOCAL_TEAM:
+            return 1
+        if minutes_played > 0 and team == VISITOR_TEAM:
+            return -1
+        return 0
 
     def _calculate_y(self, fixture, sample_minute_from, sample_minute_to):
+        # @todo consider creating another class "Result"
         result_before = fixture.get_result_in_minute(sample_minute_from)
-        result_before = self._convert_result_to_int(
-            result_before['local_team_score'],
-            result_before['visitor_team_score']
+        local_team_score, visitor_team_score = result_before
+        result_before_int = self._convert_result_to_int(
+            local_team_score,
+            visitor_team_score
         )
-        result_after = fixture.get_result_in_minute(sample_minute_to)
-        result_after = self._convert_result_to_int(
-            result_after['local_team_score'],
-            result_after['visitor_team_score']
-        )
-        return result_after - result_before
 
-    @staticmethod
-    def _calculate_weight(fixture, sample_minute_from, sample_minute_to):
-        # @todo change match_length to standard_match_length
-        return (sample_minute_to - sample_minute_from) / fixture.match_length
+        result_after = fixture.get_result_in_minute(sample_minute_to)
+        local_team_score, visitor_team_score = result_after
+        result_after_int = self._convert_result_to_int(
+            local_team_score,
+            visitor_team_score
+        )
+
+        sample_length = sample_minute_to - sample_minute_from
+        ratio = (
+            self.STANDARD_MATCH_LENGTH / sample_length if sample_length > 0
+            else 0
+        )
+
+        return (result_after_int - result_before_int) * ratio
+
+    def _calculate_weight(self, sample_minute_from, sample_minute_to):
+        sample_length = sample_minute_to - sample_minute_from
+        return sample_length / self.STANDARD_MATCH_LENGTH
 
     @staticmethod
     def _convert_result_to_int(local_team_score, visitor_team_score):
         return 10 * (local_team_score - visitor_team_score)
 
-    # @staticmethod
-    # def _convert_result_to_int(local_team_score, visitor_team_score):
-    #     if local_team_score > visitor_team_score:
-    #         return (
-    #             (local_team_score / visitor_team_score) - 1
-    #             if visitor_team_score
-    #             else local_team_score
-    #         )
-    #
-    #     if visitor_team_score > local_team_score:
-    #         return -(
-    #             (visitor_team_score / local_team_score) + 1
-    #             if local_team_score
-    #             else visitor_team_score
-    #         )
-    #
-    #     return 0
+    def _can_fixture_be_evaluated(self, fixture):
+        for player in fixture.get_all_players():
+            if player.identifier not in self.players:
+                return False
+        return True
 
-    def _add_players(self, players):
-        for player in players:
-            if player.id not in self.players:
-                self.players[player.id] = player
-                self.players[player.id].node_id = self.players_count
-                self.players_count += 1
+    def _update_players(self, players_in_fixture):
+        for player in players_in_fixture:
+            self._add_player(player)
+            self._increment_player_occurrences(player)
 
-            # @todo: move to separate method
-            if hasattr(self.players[player.id], 'occurrences'):
-                self.players[player.id].occurrences += 1
-            else:
-                self.players[player.id].occurrences = 1
+    def _add_player(self, player):
+        if player.identifier not in self.players:
+            self.players[player.identifier] = player
+            self.players[player.identifier].node_id = self.players_count
+            self.players_count += 1
+
+    def _increment_player_occurrences(self, player):
+        if hasattr(self.players[player.identifier], 'occurrences'):
+            self.players[player.identifier].occurrences += 1
+        else:
+            self.players[player.identifier].occurrences = 1

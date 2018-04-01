@@ -29,8 +29,9 @@ def get_minutes_provider():
     ronaldo = Player(1, "Cristiano", "Ronaldo")
     zidane = Player(2, "Zinedine", "Zidane")
     xavi = Player(3, "Xavi", "Hernandez")
+    iniesta = Player(4, "Anders", "Iniesta")
 
-    fixture = Fixture(
+    fixture1 = Fixture(
         [ronaldo],
         [xavi],
         0,
@@ -38,21 +39,37 @@ def get_minutes_provider():
         [Substitution(zidane, ronaldo, 50, LOCAL_TEAM)]
     )
 
+    fixture2 = Fixture(
+        [xavi],
+        [ronaldo],
+        0,
+        0,
+        [
+            Substitution(zidane, ronaldo, 50, VISITOR_TEAM),
+            Substitution(iniesta, zidane, 60, VISITOR_TEAM)
+        ]
+    )
+
     return [
-        (fixture, zidane, 0, None, 40),
-        (fixture, ronaldo, 0, None, 50),
-        (fixture, xavi, 0, None, 90),
-        (fixture, xavi, 30, 70, 40),
-        (fixture, xavi, 45, None, 45),
-        (fixture, xavi, 0, 70, 70),
-        (fixture, zidane, 40, 60, 10),
-        (fixture, zidane, 60, 80, 20),
-        (fixture, zidane, 30, None, 40),
-        (fixture, zidane, 0, 80, 30),
-        (fixture, ronaldo, 30, 55, 20),
-        (fixture, ronaldo, 30, None, 20),
-        (fixture, ronaldo, 0, 80, 50)
+        (fixture1, zidane, 0, None, 40),
+        (fixture1, ronaldo, 0, None, 50),
+        (fixture1, xavi, 0, None, 90),
+        (fixture1, xavi, 30, 70, 40),
+        (fixture1, xavi, 45, None, 45),
+        (fixture1, xavi, 0, 70, 70),
+        (fixture1, zidane, 40, 60, 10),
+        (fixture1, zidane, 60, 80, 20),
+        (fixture1, zidane, 30, None, 40),
+        (fixture1, zidane, 0, 80, 30),
+        (fixture1, ronaldo, 30, 55, 20),
+        (fixture1, ronaldo, 30, None, 20),
+        (fixture1, ronaldo, 0, 80, 50),
+        (fixture2, ronaldo, 0, None, 50),
+        (fixture2, zidane, 0, None, 10),
+        (fixture2, zidane, 35, 55, 5),
+        (fixture2, iniesta, 40, None, 30),
     ]
+
 
 @pt.mark.parametrize(
     "fixture, player, minute_from, minute_to, expected",
@@ -85,19 +102,7 @@ def test_get_result_in_minute():
         ]
     )
 
-    assert fixture.get_result_in_minute(5) == {
-        "local_team_score": 0,
-        "visitor_team_score": 0
-    }
-    assert fixture.get_result_in_minute(15) == {
-        "local_team_score": 1,
-        "visitor_team_score": 0
-    }
-    assert fixture.get_result_in_minute(50) == {
-        "local_team_score": 1,
-        "visitor_team_score": 1
-    }
-    assert fixture.get_result_in_minute(80) == {
-        "local_team_score": 1,
-        "visitor_team_score": 2
-    }
+    assert fixture.get_result_in_minute(5) == (0, 0)
+    assert fixture.get_result_in_minute(15) == (1, 0)
+    assert fixture.get_result_in_minute(50) == (1, 1)
+    assert fixture.get_result_in_minute(80) == (1, 2)

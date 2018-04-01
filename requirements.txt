@@ -3,3 +3,4 @@ tensorflow
 keras
 tabulate
 pytest
+requests_cache

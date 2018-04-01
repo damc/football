@@ -47,10 +47,15 @@ def top_data_provider():
         Fixture(
             [xavi],
             [ronaldo],
-            2,
+            4,
             0,
             [Substitution(zidane, xavi, 80, LOCAL_TEAM)],
-            [Goal(LOCAL_TEAM, 82), Goal(LOCAL_TEAM, 84)]
+            [
+                Goal(LOCAL_TEAM, 20),
+                Goal(LOCAL_TEAM, 42),
+                Goal(LOCAL_TEAM, 82),
+                Goal(LOCAL_TEAM, 84)
+            ],
         ),
         Fixture(
             [xavi],
@@ -64,9 +69,27 @@ def top_data_provider():
     top_count = 1
     expected_players = [zidane]
 
-    # more substitutions tests
+    data.append((fixtures, top_count, max_players_count, expected_players))
 
-    # one big test
+    """test 5 - substitutions"""
+    fixtures = [
+        Fixture(
+            [xavi],
+            [ronaldo],
+            5,
+            0,
+            [Substitution(zidane, xavi, 80, LOCAL_TEAM)],
+            [
+                Goal(LOCAL_TEAM, 20),
+                Goal(LOCAL_TEAM, 42),
+                Goal(LOCAL_TEAM, 82),
+                Goal(LOCAL_TEAM, 84),
+                Goal(LOCAL_TEAM, 86)
+            ],
+        )
+    ]
+    top_count = 1
+    expected_players = [zidane]
 
     data.append((fixtures, top_count, max_players_count, expected_players))
 
@@ -88,7 +111,7 @@ def test_get_top_players(
     calculator = BestPlayerCalculator(max_players_count)
     calculator.add_fixtures(fixtures)
     returned_players = calculator.get_top_players(top_count)
-    for player in expected_players:  # change to set
+    for player in expected_players:
         assert player in returned_players
 
 
