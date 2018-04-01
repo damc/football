@@ -2,7 +2,7 @@
 
 This program creates a ranking of the best football players basing on the analysis of the matches/fixtures downloaded from Sportmonks API.
 
-What is understood by "a good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of the team in which he plays by playing in this team.
+What is understood by "a good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of the team in which he plays.
 
 In other words, this program uses mathematical approach to find out which players increase the probability of his team winning the most.
 
@@ -14,8 +14,6 @@ In other words, this program uses mathematical approach to find out which player
 ## Usage
 
 Before you run the program, you have to have a subscription on Sportmonks.com and API token so that the program can connect to Sportmonks API. You have to have Python3 installed as well.
-
-To install, run ``install.sh``. It will ask you for API token to Sportkmonks API and install the required packages.
 
 To run the program, execute (from the project root folder):
 
@@ -139,7 +137,7 @@ _s_[i] = skill of the player with ID = i (how good this player is)
 
 Why is the last equation true? You can conclude the above equation mathematically from the previous equations. You can also realize this intuitively if you look above at what is _x_.
 
-The last equation is our model. The model is trained to predict the results of the matches (y) taking as an input the players in the match (_x_).
+The last equation is the model. The model is trained to predict the results of the matches (y) taking as an input the players in the match (_x_).
  
  The goal is to find _s_ such that the value of cost function which represents how much our estimated y differs from the real y on all data samples is the lowest. I used Keras library and SGD algorithm to achieve this goal.
  
@@ -159,7 +157,7 @@ We have also the following data about every match:
 
 To make use of this information, every match is divided into smaller matches (smaller data samples) with the minutes when substitutions were made as a delimiter.
 
-_x_[i] in each sample represents if player i played at the time represented by given sample.
+_x_[i] in each sample represents if player with ID = i played at the time represented by given sample.
 
 y variable is set to the result of the match only taking into account that period of time which the data sample represent. 'y' is multiplied by (match_length / sample_time) because it represents how much the local team beaten the visitor team and if they scored more goals in the short time then they beaten them more than if they scored it in a long time. The sample weight of the data sample representing this period equals how long was the period divided by match length.
 
