@@ -181,7 +181,7 @@ class BestPlayerCalculator:
         return 0
 
     def _calculate_y(self, fixture, sample_minute_from, sample_minute_to):
-        # @todo consider creating another class "Result"
+        # @todo clean up mess, consider creating another class "Result"
         result_before = fixture.get_result_in_minute(sample_minute_from)
         local_team_score, visitor_team_score = result_before
         result_before_int = self._convert_result_to_int(
