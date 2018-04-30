@@ -27,7 +27,11 @@ python3 football/main.py
 
 It uses a linear regression model for accomplishing the task.
 
-If you're not familiar with linear regression, you need to read about it first. Here  you have a simple explanation: https://www.spss-tutorials.com/multiple-linear-regression/
+If you're not familiar with linear regression, you need to read about it first. Here  you have a simple explanation (choose one of these links that better fits you):
+
+https://medium.com/simple-ai/linear-regression-intro-to-machine-learning-6-6e320dbdaf06
+
+https://www.spss-tutorials.com/multiple-linear-regression/
 
 The algorithm is trained to predict the results of matches (y) taking the players playing in the match as an input (_x_)
 
@@ -41,17 +45,17 @@ If we have a model like this:
 
 y = _x_[1] * _w_[1] + _x_[2] * _w_[2] + ... + _x_[n] * _w_[n]
 
-and we train _w_ to give predictions of y (the result of the match converted to a single real number) basing on _x_ (who played in the match and in which team), then after training _w_[i] will be as high as good the player with id = i is (basing on the given input).
+and we train _w_ (weights) to give correct predictions of y (the result of the match converted to a single real number) basing on _x_ (who played in the match and in which team), then after training _w_[i] will be as high as good the player with id = i is (basing on the given input).
 
 Why?
 
-We want to learn how the presence of a player in the team affects the result of the match. So if the players with id = i play in the first team, then _x_[i] = 1 because he has positive impact on the result (y) - the better he is, the more positive impact he will have on the value of this variable. If he doesn't play, then he doesn't have any impact on the result (y) so x[i] = 0. If he plays in the second team, then he has negative impact on the result (y) so x[i] = -1 - the better he is, the more negative impact he will have on the value of this variable. This way, w[i] will be high if he's good and it will be low if he's weak.
+We want to learn how the presence of a player in the team affects the result of the match. So if the player with id = i plays in the first team, then _x_[i] = 1 because he has positive impact on the result (y) - the better he is, the more positive impact he will have on the value of this variable. If he doesn't play, then he doesn't have any impact on the result (y) so x[i] = 0. If he plays in the second team, then he has negative impact on the result (y) so x[i] = -1 - the better he is, the more negative impact he will have on the value of this variable. This way, w[i] will be high if he's good and it will be low if he's weak.
 
-The above model wouldn't be perfect if we wanted to get predictions of the results of the matches because linear regression can't represent for example that two players are good together (for example Xavi and Iniesta can play well and be strong together). The model assumes that the result of the match is a consequence of the strength of all players individually. So if we wanted to get the predictions of matches, the neural network model would be better because it can represent that two players are good together (and we could add more variables as an input than just the players). But if we want to learn what is the influence of individual players to the result, then this model is great.
+The above model wouldn't be perfect if we wanted to get predictions of the results of the matches because linear regression can't represent for example that two players are good together (for example Xavi and Iniesta can play well and be strong together). The model assumes that the result of the match is a consequence of the strength of all players individually. So if we wanted to get the predictions of matches, the neural network model would be better because it can represent that two players are good together (and we could add more variables as an input than just players). But if we want to learn what is the influence of individual players to the result, then this model is great.
 
 ### Data set
 
-Each data sample of the input data set is a description of one fixture (match) and consists of the following information:
+The algorithm analyzes football matches. The algorithm is given the following information about each match:
 
 1. Players playing from the first minute in the local team.
 2. Players playing from the first minute in the visitor team.
