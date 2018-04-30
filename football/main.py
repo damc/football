@@ -20,16 +20,21 @@ from repositories import FixturesRepository, PlayersRepository
 from tabulate import tabulate
 from collections import OrderedDict
 from os.path import dirname
+from datetime import datetime
 
-max_player_count = 15000
-leagues = "2, 5, 8, 82, 163, 166, 301, 384, 564"
-training_date_from = "2015-09-01"
-training_date_to = "2018-04-01"
+leagues_ids = (
+    "2, 5, 8, 72, 82, 301, 384, 462, 501, 564, 600, 636, 648, 711, 714, 717," +
+    "720, 723, 726, 729, 732, 1111, 1112, 1113, 1114, 1117, 1122, 1326, 1452"
+)
+estimate_for = "2018-04-17"
+training_date_from = "2013-04-17"
+training_date_to = "2018-04-17"
 testing = False
-testing_date_from = "2017-01-01"
-testing_date_to = "2017-06-01"
+testing_date_from = None
+testing_date_to = None
 displayed_players_count = 50
-file_to_save = dirname(__file__) + '/../results/all_2018_04_01.txt'
+file_to_save = dirname(__file__) + '/../results/all_2018_04_17-epochs-128.txt'
+max_player_count = 30000
 batch_size = 30
 
 training_filter = (
@@ -38,19 +43,22 @@ training_filter = (
     "/" +
     training_date_to +
     "?leagues=" +
-    leagues
+    leagues_ids
 )
 
 testing_filter = (
     "between/" +
-    testing_date_from +
+    str(testing_date_from) +
     "/" +
-    testing_date_to +
+    str(testing_date_to) +
     "?leagues=" +
-    leagues
+    leagues_ids
 )
 
-calculator = BestPlayerCalculator(max_player_count)
+estimate_for_datetime = datetime.strptime(estimate_for, "%Y-%m-%d")
+estimate_for_timestamp = estimate_for_datetime.timestamp()
+
+calculator = BestPlayerCalculator(max_player_count, estimate_for_timestamp)
 fixtures_repo = FixturesRepository()
 players_repo = PlayersRepository()
 
@@ -89,7 +97,7 @@ print("Fixtures count: " + str(training_fixtures_count))
 print("Invalid fixtures count: " + str(invalid_fixtures_count))
 print("Players count: " + str(calculator.players_count))
 if testing:
-    print("Test loss: " + str(calculator.get_test_loss_for_one_fixture()))
+    print("Testing loss: " + str(calculator.get_testing_loss()))
 
 best_players = calculator.get_top_players(displayed_players_count)
 
@@ -101,7 +109,7 @@ for key, player in enumerate(best_players):
     player_dict = OrderedDict([
         ('place', key + 1),
         ('full name', player_details.full_name),
-        ('team', player_details.team_name),
+        ('current team', player_details.team_name),
         ('nationality', player_details.nationality),
         ('position', player_details.position),
         ('occurrences', player.occurrences),

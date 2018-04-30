@@ -1,3 +1,5 @@
+"""Repositories for retrieving data about players and fixtures."""
+
 import logging
 from entities import Player, Fixture, Substitution, Goal
 from entities import LOCAL_TEAM, VISITOR_TEAM
@@ -5,11 +7,19 @@ import sportmonks as sm
 
 
 class PlayersRepository:
+    """Repository for retrieving data about players."""
+
     ENDPOINT = 'players'
     INCLUDE = 'team,position'
 
     @staticmethod
     def get_by_identifier(identifier):
+        """
+        Get player data by id (identifier).
+
+        :param identifier: int
+        :return: Player
+        """
         data = sm.get(
             PlayersRepository._get_players_endpoint(identifier),
             PlayersRepository.INCLUDE,
@@ -35,15 +45,26 @@ class PlayersRepository:
 
 
 class FixturesRepository:
+    """Repository for retrieving data about fixtures."""
+
     ENDPOINT = 'fixtures'
     INCLUDE = 'lineup,substitutions,goals'
     PER_PAGE = 100
 
     def __init__(self):
+        """Class constructor."""
         self.fixtures = {}
         self.invalid_data_count = 0
 
     def get_by_filter(self, filter_, limit, offset):
+        """
+        Get fixtures data by filter.
+
+        :param filter_: string
+        :param limit: int
+        :param offset: int
+        :return: list of Fixture
+        """
         if filter_ not in self.fixtures:
             data = sm.get(
                 FixturesRepository._get_fixtures_endpoint(filter_),
@@ -63,6 +84,12 @@ class FixturesRepository:
 
     @staticmethod
     def get_total_count(filter_):
+        """
+        Get total count of fixtures for a filter.
+
+        :param filter_: string
+        :return: int
+        """
         return sm.get_total_count(
             FixturesRepository._get_fixtures_endpoint(filter_)
         )
@@ -137,6 +164,9 @@ class FixturesRepository:
                 goals.append(goal)
 
             match_length = data_sample['time']['minute']
+            time = data_sample['time']['starting_at']['timestamp']
+            if time is None:
+                raise ValueError("No starting time data")
 
             return Fixture(
                 local_team_players,
@@ -145,7 +175,8 @@ class FixturesRepository:
                 visitor_team_score,
                 substitutions,
                 goals,
-                match_length
+                match_length,
+                time
             )
         except (KeyError, ValueError):
             self.invalid_data_count += 1

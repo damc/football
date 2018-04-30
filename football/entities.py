@@ -1,8 +1,13 @@
+"""Entities related to football."""
+
+
 LOCAL_TEAM = 0
 VISITOR_TEAM = 1
 
 
 class Player:
+    """Represents player."""
+
     def __init__(
         self,
         identifier,
@@ -13,6 +18,17 @@ class Player:
         team_name=None,
         position=None,
     ):
+        """
+        Class constructor.
+
+        :param identifier: int
+        :param first_name: string
+        :param last_name: string
+        :param full_name: string
+        :param nationality: string
+        :param team_name: string
+        :param position: int
+        """
         if identifier is None:
             raise ValueError("Player identifier can't be none")
 
@@ -25,6 +41,11 @@ class Player:
         self.position = position
 
     def __repr__(self):
+        """
+        Representation for player.
+
+        :return: string
+        """
         return (
             self.first_name + " " + self.last_name
             if self.first_name and self.last_name
@@ -32,36 +53,76 @@ class Player:
         )
 
     def __eq__(self, other):
+        """
+        Check if two instances are equal.
+
+        :param other: Player
+        :return: bool
+        """
         return self.identifier == other.identifier
 
 
 class Substitution:
+    """Represents Substitution."""
+
     def __init__(self, player_in, player_out, minute, team):
+        """
+        Class constructor.
+
+        :param player_in: Player
+        :param player_out: Player
+        :param minute: int
+        :param team: int
+        """
         self.player_in = player_in
         self.player_out = player_out
         self.minute = minute
         self.team = team
 
     def __eq__(self, other):
+        """
+        Check if two instances are equal.
+
+        :param other: Substitution
+        :return: bool
+        """
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
+        """Representation for Substitution."""
         return str(self.__dict__)
 
 
 class Goal:
+    """Represents Goal."""
+
     def __init__(self, team, minute):
+        """
+        Class constructor.
+
+        :param team: int
+        :param minute: int
+        """
         self.team = team
         self.minute = minute
 
     def __eq__(self, other):
+        """
+        Check if two instances are equal.
+
+        :param other: Goal
+        :return: boolean
+        """
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
+        """Representation for Goal."""
         return str(self.__dict__)
 
 
 class Fixture:
+    """Represents Fixture."""
+
     def __init__(
             self,
             local_team_players,
@@ -70,8 +131,21 @@ class Fixture:
             visitor_team_score,
             substitutions=None,
             goals=None,
-            match_length=90
+            match_length=90,
+            time=None
     ):
+        """
+        Class constructor.
+
+        :param local_team_players: list of Player
+        :param visitor_team_players: list of Player
+        :param local_team_score: int
+        :param visitor_team_score: int
+        :param substitutions: list of Substitution
+        :param goals: list of Goal
+        :param match_length: int
+        :param time: int
+        """
         self.local_team_players = local_team_players
         self.visitor_team_players = visitor_team_players
         self.local_team_score = local_team_score
@@ -79,6 +153,7 @@ class Fixture:
         self.substitutions = substitutions or []
         self.goals = goals
         self.match_length = match_length
+        self.time = time
 
         self._validate_substitutions()
         self._validate_goals()
@@ -92,6 +167,14 @@ class Fixture:
         self._update_match_length()
 
     def get_minutes_played(self, player, minute_from=0, minute_to=None):
+        """
+        Get how many minutes the player played in the match.
+
+        :param player: Player
+        :param minute_from: int
+        :param minute_to: int
+        :return: int
+        """
         if minute_to is None:
             minute_to = self.match_length
         if minute_to < minute_from:
@@ -108,6 +191,12 @@ class Fixture:
         return upper_limit - lower_limit
 
     def get_result_in_minute(self, minute):
+        """
+        Get result of the match in given minute.
+
+        :param minute: int
+        :return: (int, int)
+        """
         if self.goals is None:
             return (
                 (0, 0) if minute < self.match_length
@@ -122,6 +211,11 @@ class Fixture:
         return score[LOCAL_TEAM], score[VISITOR_TEAM]
 
     def get_all_players(self):
+        """
+        Get all players playing in a match (with substitutes).
+
+        :return: list of Player
+        """
         return (
             self.local_team_players +
             self.local_team_substitutes +
@@ -130,9 +224,11 @@ class Fixture:
         )
 
     def get_local_team_players_and_substitutes(self):
+        """Get all players from local team."""
         return self.local_team_players + self.local_team_substitutes
 
     def get_visitor_team_players_and_substitutes(self):
+        """Get all players from visitor team."""
         return self.visitor_team_players + self.visitor_team_substitutes
 
     def _update_substitutes(self):
@@ -178,7 +274,14 @@ class Fixture:
         pass
 
     def __eq__(self, other):
+        """
+        Check if two instances are equal.
+
+        :param other: Fixture
+        :return: boolean
+        """
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
+        """Representation for Fixture."""
         return str(self.__dict__)

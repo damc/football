@@ -1,12 +1,17 @@
+"""Creates a ranking of the best players."""
+
 import numpy as np
 from keras.constraints import non_neg
 from keras.layers import Dense
 from keras.models import Sequential
 from keras.optimizers import SGD
+from time import time
 from entities import LOCAL_TEAM, VISITOR_TEAM
 
 
 class BestPlayerCalculator:
+    """Creates a ranking of the best players."""
+
     STANDARD_MATCH_LENGTH = 90
     EPOCHS_COUNT = 32
     LEARNING_RATE = 0.01
@@ -14,18 +19,27 @@ class BestPlayerCalculator:
     CONVERT_RESULT_POWER = 0.8
     CONVERT_RESULT_MULTIPLY = 10
 
-    def __init__(self, max_players_count):
-        self.players = {}
-        self.players_count = 0
-        self.first_layer_size = max_players_count + 1
-        self.testing_loss = 0
-        self.testing_fixtures_count = 0
+    SAMPLE_WEIGHT_DATE_MULTIPLY = 0.000000005
 
-        self.model = Sequential()
-        self.model.add(
+    def __init__(self, max_players_count, time_=None):
+        """
+        Class constructor.
+
+        :param max_players_count: int
+        :param time_: int
+        """
+        self.time = time_ or time()
+        self._players = {}
+        self.players_count = 0
+        self._first_layer_size = max_players_count + 1
+        self._testing_loss = 0
+        self._testing_fixtures_count = 0
+
+        self._model = Sequential()
+        self._model.add(
             Dense(
                 1,
-                input_dim=self.first_layer_size,
+                input_dim=self._first_layer_size,
                 kernel_constraint=non_neg(),
                 use_bias=False,
                 activation='linear'
@@ -33,9 +47,15 @@ class BestPlayerCalculator:
         )
 
         sgd = SGD(self.LEARNING_RATE)
-        self.model.compile(loss='mean_squared_error', optimizer=sgd)
+        self._model.compile(loss='mean_squared_error', optimizer=sgd)
 
     def add_training_fixtures(self, fixtures):
+        """
+        Add fixtures used as a training data.
+
+        :param fixtures: list of Fixture
+        :return:
+        """
         prepared = []
         for fixture in fixtures:
             self._update_players(fixture.get_all_players())
@@ -43,7 +63,7 @@ class BestPlayerCalculator:
 
         n = len(prepared)
 
-        x = np.empty((n, self.first_layer_size))
+        x = np.empty((n, self._first_layer_size))
         y = np.empty((n,))
         weights = np.empty((n,))
 
@@ -53,7 +73,7 @@ class BestPlayerCalculator:
             weights[key] = data['weight']
 
         # @todo use fit_generator()
-        self.model.fit(
+        self._model.fit(
             x,
             y,
             epochs=self.EPOCHS_COUNT,
@@ -62,20 +82,24 @@ class BestPlayerCalculator:
         )
 
     def add_testing_fixtures(self, fixtures):
+        """
+        Add testing fixtures for estimating testing loss.
+
+        :param fixtures: list of Fixture
+        :return: boolean
+        """
         prepared = []
         for fixture in fixtures:
             if not self._can_fixture_be_evaluated(fixture):
                 continue
             prepared += self._prepare_samples(fixture)
-            self.testing_fixtures_count += 1
-
-        # @todo Don't repeat yourself
 
         n = len(prepared)
         if n == 0:
-            return None
+            return False
 
-        x = np.empty((n, self.first_layer_size))
+        # @todo Don't repeat yourself
+        x = np.empty((n, self._first_layer_size))
         y = np.empty((n,))
         weights = np.empty((n,))
 
@@ -84,17 +108,25 @@ class BestPlayerCalculator:
             y[key] = data['y']
             weights[key] = data['weight']
 
-        self.testing_loss += self.model.evaluate(
+        self._testing_loss += self._model.evaluate(
             x,
             y,
             sample_weight=weights,
             verbose=0
         )
+        self._testing_fixtures_count += 1
+        return True
 
     def get_top_players(self, count):
-        players_list = list(self.players.values())
+        """
+        Return best players according to the calculator.
 
-        weights = self.model.get_weights()[0]
+        :param count: int
+        :return: list of Player
+        """
+        players_list = list(self._players.values())
+
+        weights = self._model.get_weights()[0]
         for key, player in enumerate(players_list):
             players_list[key].skill = weights.item((player.node_id,))
 
@@ -102,10 +134,15 @@ class BestPlayerCalculator:
 
         return players_list[:count]
 
-    def get_test_loss_for_one_fixture(self):
-        if self.testing_fixtures_count:
-            return self.testing_loss / self.testing_fixtures_count
-        return None
+    def get_testing_loss(self):
+        """
+        Return loss for testing data.
+
+        :return: int
+        """
+        if self._testing_fixtures_count:
+            return self._testing_loss / self._testing_fixtures_count
+        return 0
 
     def _prepare_samples(self, fixture):
         substitutions_count = len(fixture.substitutions)
@@ -130,6 +167,7 @@ class BestPlayerCalculator:
                 sample_minute_to
             )
             weight = self._calculate_weight(
+                fixture,
                 sample_minute_from,
                 sample_minute_to
             )
@@ -142,10 +180,10 @@ class BestPlayerCalculator:
         return samples
 
     def _calculate_x(self, fixture, sample_minute_from, sample_minute_to):
-        x = np.zeros((self.first_layer_size,))
+        x = np.zeros((self._first_layer_size,))
         all_players = fixture.get_all_players()
         for player in all_players:
-            node_id = self.players[player.identifier].node_id
+            node_id = self._players[player.identifier].node_id
             x[node_id] = self._calculate_x_for_player(
                 fixture,
                 player,
@@ -181,7 +219,7 @@ class BestPlayerCalculator:
         return 0
 
     def _calculate_y(self, fixture, sample_minute_from, sample_minute_to):
-        # @todo clean up mess, consider creating another class "Result"
+        # @todo clean up mess
         result_before = fixture.get_result_in_minute(sample_minute_from)
         local_team_score, visitor_team_score = result_before
         result_before_int = self._convert_result_to_int(
@@ -204,9 +242,24 @@ class BestPlayerCalculator:
 
         return (result_after_int - result_before_int) * ratio
 
-    def _calculate_weight(self, sample_minute_from, sample_minute_to):
+    def _calculate_weight(
+        self,
+        fixture,
+        sample_minute_from,
+        sample_minute_to
+    ):
         sample_length = sample_minute_to - sample_minute_from
-        return sample_length / self.STANDARD_MATCH_LENGTH
+        weight_by_minutes = sample_length / self.STANDARD_MATCH_LENGTH
+
+        weight_by_date = 1
+        if fixture.time is not None:
+            time_length = abs(self.time - fixture.time)
+            weight_by_date = max(
+                1 - time_length * self.SAMPLE_WEIGHT_DATE_MULTIPLY,
+                0
+            )
+
+        return weight_by_minutes * weight_by_date
 
     def _convert_result_to_int(self, local_team_score, visitor_team_score):
         if local_team_score > visitor_team_score:
@@ -236,7 +289,7 @@ class BestPlayerCalculator:
 
     def _can_fixture_be_evaluated(self, fixture):
         for player in fixture.get_all_players():
-            if player.identifier not in self.players:
+            if player.identifier not in self._players:
                 return False
         return True
 
@@ -246,13 +299,13 @@ class BestPlayerCalculator:
             self._increment_player_occurrences(player)
 
     def _add_player(self, player):
-        if player.identifier not in self.players:
-            self.players[player.identifier] = player
-            self.players[player.identifier].node_id = self.players_count
+        if player.identifier not in self._players:
+            self._players[player.identifier] = player
+            self._players[player.identifier].node_id = self.players_count
             self.players_count += 1
 
     def _increment_player_occurrences(self, player):
-        if hasattr(self.players[player.identifier], 'occurrences'):
-            self.players[player.identifier].occurrences += 1
+        if hasattr(self._players[player.identifier], 'occurrences'):
+            self._players[player.identifier].occurrences += 1
         else:
-            self.players[player.identifier].occurrences = 1
+            self._players[player.identifier].occurrences = 1

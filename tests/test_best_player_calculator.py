@@ -42,7 +42,16 @@ def top_data_provider():
 
     data.append((fixtures, top_count, max_players_count, expected_players))
 
-    """test 4 - substitutions"""
+    """test 4"""
+    fixtures = [
+        Fixture([xavi], [ronaldo], 0, 1),
+    ]
+    top_count = 1
+    expected_players = [ronaldo]
+
+    data.append((fixtures, top_count, max_players_count, expected_players))
+
+    """test 5 - substitutions"""
     fixtures = [
         Fixture(
             [xavi],
@@ -71,7 +80,7 @@ def top_data_provider():
 
     data.append((fixtures, top_count, max_players_count, expected_players))
 
-    """test 5 - substitutions"""
+    """test 6 - substitutions"""
     fixtures = [
         Fixture(
             [xavi],
@@ -93,6 +102,52 @@ def top_data_provider():
 
     data.append((fixtures, top_count, max_players_count, expected_players))
 
+    """test 7 - sample_weight influenced by date"""
+    fixtures = [
+        Fixture(
+            [xavi],
+            [ronaldo],
+            2,
+            0,
+            time=1239651697
+        ),
+        Fixture(
+            [xavi],
+            [ronaldo],
+            0,
+            1,
+            time=1523648400
+        )
+    ]
+    top_count = 1
+    expected_players = [ronaldo]
+
+    data.append((fixtures, top_count, max_players_count, expected_players))
+
+    """test 8 - sample_weight influenced by date"""
+    fixtures = [
+        Fixture(
+            [xavi],
+            [ronaldo],
+            2,
+            0,
+            time=1239651697
+        ),
+        Fixture(
+            [xavi],
+            [ronaldo],
+            0,
+            1,
+            [Substitution(zidane, ronaldo, 45, VISITOR_TEAM)],
+            [Goal(VISITOR_TEAM, 70)],
+            time=1523648400
+        )
+    ]
+    top_count = 1
+    expected_players = [zidane]
+
+    data.append((fixtures, top_count, max_players_count, expected_players))
+
     return data
 
 
@@ -104,8 +159,13 @@ def test_get_top_players(
     fixtures,
     top_count,
     max_players_count,
-    expected_players
+    expected_players,
+    monkeypatch
 ):
+    def current_time():
+        return 1523648500
+
+    monkeypatch.setattr('time.time', current_time)
     np.random.seed(500)
 
     calculator = BestPlayerCalculator(max_players_count)

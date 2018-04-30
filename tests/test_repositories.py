@@ -23,12 +23,21 @@ def test_get_by_filter(monkeypatch):
                 Substitution(Player(2460), Player(6979), 53, LOCAL_TEAM),
                 Substitution(Player(2461), Player(12100), 75, LOCAL_TEAM)
             ],
-            [Goal(LOCAL_TEAM, 30)]
+            [Goal(LOCAL_TEAM, 30)],
+            time=1485606600
         ),
-        Fixture([Player(4357)], [Player(6013397)], 3, 2, [], [])
+        Fixture(
+            [Player(4357)],
+            [Player(6013397)],
+            3,
+            2,
+            [],
+            [],
+            time=1485615600
+        )
     ]
 
     fixtures_repo = FixturesRepository()
-    for i in range(0, 2):  # assert two times to test if caching doesn't break
+    for i in range(0, 2):  # assert two times to test caching
         fixtures = fixtures_repo.get_by_filter('random_filter', 2, 2)
         assert fixtures == expected_fixtures
