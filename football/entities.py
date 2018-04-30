@@ -89,7 +89,11 @@ class Substitution:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        """Representation for Substitution."""
+        """
+        Representation for Substitution.
+
+        :return: string
+        """
         return str(self.__dict__)
 
 
@@ -116,7 +120,11 @@ class Goal:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        """Representation for Goal."""
+        """
+        Representation for Goal.
+
+        :return: string
+        """
         return str(self.__dict__)
 
 
@@ -193,6 +201,10 @@ class Fixture:
     def get_result_in_minute(self, minute):
         """
         Get result of the match in given minute.
+
+        If it doesn't have information about in which minutes the
+        goals were scored, then it assumes that they were all scored
+        in the last minute of the match.
 
         :param minute: int
         :return: (int, int)
@@ -283,5 +295,9 @@ class Fixture:
         return self.__dict__ == other.__dict__
 
     def __repr__(self):
-        """Representation for Fixture."""
+        """
+        Representation for Fixture.
+
+        :return: string
+        """
         return str(self.__dict__)

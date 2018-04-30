@@ -33,7 +33,7 @@ class BestPlayerCalculator:
         self.players_count = 0
         self._first_layer_size = max_players_count + 1
         self._testing_loss = 0
-        self._testing_fixtures_count = 0
+        self._testing_batches_count = 0
 
         self._model = Sequential()
         self._model.add(
@@ -114,7 +114,7 @@ class BestPlayerCalculator:
             sample_weight=weights,
             verbose=0
         )
-        self._testing_fixtures_count += 1
+        self._testing_batches_count += 1
         return True
 
     def get_top_players(self, count):
@@ -140,8 +140,8 @@ class BestPlayerCalculator:
 
         :return: int
         """
-        if self._testing_fixtures_count:
-            return self._testing_loss / self._testing_fixtures_count
+        if self._testing_batches_count:
+            return self._testing_loss / self._testing_batches_count
         return 0
 
     def _prepare_samples(self, fixture):
