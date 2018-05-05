@@ -27,11 +27,11 @@ python3 football/main.py
 
 It uses a linear regression model for accomplishing the task.
 
-If you're not familiar with linear regression, you need to read about it first. Here  you have a simple explanation (choose one of these links that better fits you):
-
-https://medium.com/simple-ai/linear-regression-intro-to-machine-learning-6-6e320dbdaf06
+If you're not familiar with linear regression, you need to read about it first. Here  you have a simple explanation of linear regression (choose one of these links that better fits you):
 
 https://www.spss-tutorials.com/multiple-linear-regression/
+
+https://medium.com/simple-ai/linear-regression-intro-to-machine-learning-6-6e320dbdaf06
 
 The algorithm is trained to predict the results of matches (y) taking the players playing in the match as an input (_x_)
 
