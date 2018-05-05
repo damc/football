@@ -4,7 +4,7 @@ This program creates a ranking of the best football players basing on the analys
 
 What is understood by a "good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of a team in which he plays.
 
-In other words, this program uses mathematical approach to find out which players increase the probability of a team winning the most.
+In other words, this program finds out which players increase the probability of a team winning the most.
 
 ## Installation
 
