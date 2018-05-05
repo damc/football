@@ -2,9 +2,9 @@
 
 This program creates a ranking of the best football players basing on the analysis of the matches/fixtures downloaded from Sportmonks API.
 
-What is understood by "a good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of the team in which he plays.
+What is understood by "a good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of a team in which he plays.
 
-In other words, this program uses mathematical approach to find out which players increase the probability of his team winning the most.
+In other words, this program uses mathematical approach to find out which players increase the probability of a team winning the most.
 
 ## Installation
 
@@ -13,7 +13,7 @@ In other words, this program uses mathematical approach to find out which player
 
 ## Usage
 
-Before you run the program, you have to have a subscription on Sportmonks.com and API token so that the program can connect to Sportmonks API. You have to have Python3 installed as well.
+Before you run the program, you need to have a subscription on Sportmonks.com and API token so that the program can connect to Sportmonks API. You have to have Python3 installed as well.
 
 To run the program, execute (from the project root folder):
 
