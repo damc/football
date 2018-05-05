@@ -13,7 +13,7 @@ In other words, this program uses mathematical approach to find out which player
 
 ## Usage
 
-Before you run the program, you need to have a subscription on Sportmonks.com and API token so that the program can connect to Sportmonks API. You have to have Python3 installed as well.
+Before you run the program, you need to have a subscription on Sportmonks.com and API token so that the program can connect to Sportmonks API. You need to have Python3 installed as well.
 
 To run the program, execute (from the project root folder):
 
