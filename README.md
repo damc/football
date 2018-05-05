@@ -25,7 +25,7 @@ python3 football/main.py
 
 ### General idea
 
-It uses a linear regression model for accomplishing the task.
+It uses a linear regression for accomplishing the task.
 
 If you're not familiar with linear regression, you need to read about it first. Here  you have a simple explanation of linear regression (choose one of these links that better fits you):
 
