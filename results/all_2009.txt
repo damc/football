@@ -1,0 +1,56 @@
+Fixtures count: 11768
+Invalid fixtures count: 0
+Players count: 12692
+
+  place  full name                            current team         nationality         position      occurrences    skill
+-------  -----------------------------------  -------------------  ------------------  ----------  -------------  -------
+      1  Lionel Andrés Messi Cuccittini       Barcelona            Argentina           Attacker              101  4.7132
+      2  F. Inzaghi                                                Italy                                      78  4.71256
+      3  Cristiano Ronaldo dos Santos Aveiro  Real Madrid          Portugal            Attacker              111  4.68216
+      4  Karim Benzema                        Real Madrid          France              Attacker               68  4.50221
+      5  Nemanja Vidic                                             Serbia                                    111  4.46948
+      6  Sami Hyypia                                               Finland                                    74  4.34416
+      7  Andrey Arshavin                      Kairat               Russia              Attacker               41  4.33525
+      8  Claudio Miguel Pizarro Bossio        Köln                 Peru                Attacker               76  4.00961
+      9  Frank  Lampard                                            England                                   113  3.86498
+     10  Madjid Bougherra                                          Algeria                                    43  3.85684
+     11  Francesc Fàbregas i Soler            Chelsea              Spain               Midfielder            100  3.83951
+     12  Kirk Broadfoot                       Kilmarnock           Scotland            Defender               41  3.71644
+     13  Kenny Miller                         Rangers              Scotland            Attacker               85  3.63296
+     14  Milan Baroš                          Baník Ostrava        Czech Republic      Attacker               70  3.61471
+     15  Theo  Walcott                        Everton              England             Attacker               77  3.55428
+     16  Eden Hazard                          Chelsea              Belgium             Midfielder             52  3.52177
+     17  Frédéric Oumar Kanouté                                    Mali                                       86  3.48781
+     18  Wayne Mark Rooney                    Everton              England             Attacker              112  3.43424
+     19  Ricardo Izecson dos Santos Leite                          Brazil                                     93  3.40381
+     20  Jérémie Bréchet                      Gazélec Ajaccio      France              Defender               45  3.39738
+     21  Mirko Vucinic                        Montenegro           Montenegro          Attacker               93  3.37801
+     22  Mladen Petric                        Panathinaikos        Croatia             Attacker               53  3.32804
+     23  Demy de Zeeuw                        NAC Breda            Netherlands         Midfielder             51  3.31346
+     24  Robin van Persie                     Feyenoord            Netherlands         Attacker               76  3.29385
+     25  Scott  McDonald                      Dundee United        Australia           Attacker               70  3.29009
+     26  Rafael Márquez Álvarez               Atlas                Mexico              Defender               75  3.28866
+     27  David Weir                                                Scotland                                   71  3.27003
+     28  Aaron  Lennon                        Burnley              England             Midfielder             94  3.23454
+     29  Edinson Roberto Cavani Gómez         PSG                  Uruguay             Attacker               81  3.22443
+     30  Marek Hamšík                         Napoli               Slovakia            Midfielder             89  3.19586
+     31  Balázs Dzsudzsák                                          Hungary                                    60  3.1769
+     32  Marcelo Vieira da Silva Júnior       Real Madrid          Brazil              Defender               82  3.17305
+     33  Sulley Ali Muntari                   Deportivo La Coruña  Ghana               Midfielder             81  3.17264
+     34  Ivica Olić                                                Croatia                                    61  3.17199
+     35  Pablo Hernández Domínguez                                 Spain                                      71  3.14227
+     36  Tim Cahill                                                Australia                                  76  3.12896
+     37  Eljero Elia                          İstanbul Başakşehir  Netherlands         Midfielder             61  3.09847
+     38  Michael Carrick                      Manchester United    England             Midfielder            110  3.09149
+     39  Steven Davis                         Southampton          Northern Ireland    Midfielder             87  3.08509
+     40  Julio Ricardo Cruz                                        Argentina                                  72  3.0473
+     41  Joseba Llorente Etxarri                                   Spain                                      88  3.03533
+     42  Tom Huddlestone                      Derby County         England             Midfielder             77  3.03286
+     43  Blaise N'Kufo                                             Switzerland                                59  3.02918
+     44  Lucimar da Silva Ferreira                                 Brazil                                     63  3.02497
+     45  Róbson de Souza                      Sivasspor            Brazil              Midfielder             88  3.02071
+     46  Sasa  Papac                                               Bosnia-Herzegovina                         61  3.02053
+     47  Giorgio Chiellini                    Juventus             Italy               Defender               81  2.99093
+     48  Kris Boyd                            Kilmarnock           Scotland            Attacker               57  2.9903
+     49  Benoît Trémoulinas                   Sevilla              France              Defender               49  2.98397
+     50  Xavier Hernández Creus               Al Sadd              Spain               Midfielder            121  2.97801

@@ -1,0 +1,56 @@
+Fixtures count: 21774
+Invalid fixtures count: 952
+Players count: 23361
+
+  place  full name                            current team          nationality             position      occurrences    skill
+-------  -----------------------------------  --------------------  ----------------------  ----------  -------------  -------
+      1  Cristiano Ronaldo dos Santos Aveiro  Real Madrid           Portugal                Attacker              226  5.88702
+      2  Victorio Maximiliano Pereira Páez    Porto                 Uruguay                 Defender              174  4.96187
+      3  Jordan Brian Henderson               Liverpool             England                 Midfielder            172  4.82839
+      4  Zlatan Ibrahimović                   Manchester United     Sweden                  Attacker              197  4.74663
+      5  Claudio Marchisio                    Juventus              Italy                   Midfielder            168  4.55708
+      6  Jeremain Lens                        Beşiktaş              Netherlands             Midfielder            110  4.53979
+      7  Jardel Nivaldo Vieira                Benfica               Brazil                  Defender              111  4.36363
+      8  Daniel Carvajal Ramos                Real Madrid           Spain                   Defender              158  4.32253
+      9  Lionel Andrés Messi Cuccittini       Barcelona             Argentina               Attacker              217  4.30757
+     10  Eden Hazard                          Chelsea               Belgium                 Midfielder            200  4.29711
+     11  Robert Lewandowski                   Bayern München        Poland                  Attacker              206  4.17206
+     12  Rodrigo José Lima Dos Santos         Shabab Al Ahli Dubai  Brazil                  Attacker              137  4.14932
+     13  David Olatukunbo Alaba               Bayern München        Austria                 Defender              176  4.1227
+     14  Muamer Tankovic                      Hammarby              Sweden                  Attacker               59  4.10793
+     15  Granit Xhaka                         Arsenal               Switzerland             Midfielder            143  4.09596
+     16  Salvatore Sirigu                     Torino                Italy                   Goalkeeper            154  4.05742
+     17  Sadio Mané                           Liverpool             Senegal                 Attacker               96  3.98302
+     18  Ânderson Luís da Silva               Benfica               Brazil                  Defender              144  3.95875
+     19  João Mário Naval da Costa Eduardo    West Ham United       Portugal                Midfielder            100  3.95008
+     20  César Azpilicueta Tanco              Chelsea               Spain                   Defender              185  3.93793
+     21  Islam Slimani                        Newcastle United      Algeria                 Attacker              109  3.93048
+     22  Eric Fernando Botteghin              Feyenoord             Brazil                  Defender              163  3.92399
+     23  Marc Bartra Aregall                  Real Betis            Spain                   Defender               89  3.91868
+     24  Volkan Demirel                       Fenerbahçe            Turkey                  Goalkeeper            181  3.89488
+     25  Gerard Piqué Bernabéu                Barcelona             Spain                   Defender              183  3.83897
+     26  Emilio Arturo Izaguirre Girón                              Honduras                                      174  3.81219
+     27  Frank  Lampard                                             England                                       126  3.80821
+     28  Michael Carrick                      Manchester United     England                 Midfielder            161  3.75461
+     29  Adam Rooney                          Aberdeen              Republic of Ireland     Attacker              107  3.73724
+     30  Fábio Henrique Tavares               Monaco                Brazil                  Midfielder            126  3.7267
+     31  Michiel Kramer                       Feyenoord             Netherlands             Attacker               96  3.71375
+     32  Álvaro Domínguez Soto                Borussia M'gladbach   Spain                   Defender              115  3.69185
+     33  Jefferson Nascimento                 Sporting Braga        Brazil                  Defender              101  3.68831
+     34  Samuel Yves Umtiti                   Barcelona             France                  Defender              155  3.68055
+     35  Osvaldo Nicolás Fabián Gaitán        Atlético Madrid       Argentina               Midfielder            161  3.64998
+     36  Mariano Ferreira Filho               Galatasaray           Brazil                  Defender              175  3.62874
+     37  Jordi Alba Ramos                     Barcelona             Spain                   Defender              176  3.61369
+     38  José Salomón Rondón Giménez          West Bromwich Albion  Venezuela               Attacker              108  3.60034
+     39  Douglas  Costa de Souza              Juventus              Brazil                  Midfielder             74  3.59981
+     40  Kris Commons                                               Scotland                                      160  3.59756
+     41  Ivan Marcano Sierra                  Porto                 Spain                   Defender               97  3.58266
+     42  Miralem Pjanić                       Juventus              Bosnia and Herzegovina  Midfielder            156  3.56945
+     43  Luis Alberto Suárez Díaz             Barcelona             Uruguay                 Attacker              190  3.5539
+     44  Neymar da Silva Santos Junior        PSG                   Brazil                  Attacker              173  3.54805
+     45  Mats  Hummels                        Bayern München        Germany                 Defender              166  3.54149
+     46  Arjen Robben                         Bayern München        Netherlands             Midfielder            141  3.52907
+     47  Yaroslav Rakitskiy                   Shakhtar Donetsk      Ukraine                 Defender               42  3.51231
+     48  Daniel Andre Sturridge               West Bromwich Albion  England                 Attacker              117  3.50348
+     49  Gonçalo Manuel Ganchinho Guedes      Valencia              Portugal                Midfielder             49  3.50052
+     50  Steven Defour                        Burnley               Belgium                 Midfielder            105  3.47845

@@ -4,7 +4,11 @@ This program creates a ranking of the best football players basing on the analys
 
 What is understood by a "good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of a team in which he plays.
 
-In other words, this program finds out which players increase the probability of a team winning the most.
+In other words, this program finds out which players increase the chances of a team winning the most.
+
+## Results
+
+You can find the results in the folder "results".
 
 ## Installation
 
@@ -51,6 +55,27 @@ Why?
 
 We want to learn how the presence of a player in the team affects the result of the match. So if the player with id = i plays in the first team, then _x_[i] = 1 because he has positive impact on the result (y) - the better he is, the more positive impact he will have on the value of this variable. If he doesn't play, then he doesn't have any impact on the result (y) so x[i] = 0. If he plays in the second team, then he has negative impact on the result (y) so x[i] = -1 - the better he is, the more negative impact he will have on the value of this variable. This way, w[i] will be high if he's good and it will be low if he's weak.
 
+Notice that:
+
+y = _x_[1] * _w_[1] + _x_[2] * _w_[2] + ... + _x_[n] * _w_[n] = L - V
+
+where:
+L - the sum of all skills of all the players in the first team
+V - the sum of all skills of all the players in the second team
+
+In fact, in the program:
+
+y = f(L - V), where f(x) = x^a, where a was chosen basing on what worked best on the validation data (this is how it should be done, in practice I didn't have time for that so I chose the value of 'a' that I thought will be ok :) ).
+
+Notice that if the algorithm analyzes data from Belgian league and Spanish league, then if the best teams from those league compete with each other in the Champions League or European league, then the algorithm will learn that Spanish league is better than the Belgian league (and it will affect also the teams in those leagues which doesn't play in Champions League).
+
+Some people can notice that the predictors of this linear regression are collinear. That's true, but if you analyze how they are collinear, then you can realize that this fact doesn't make the algorithm to be useless. It still gives quite accurate results (although if they weren't collinear, then the results would be even more accurate), especially if you take substitutions (and in which minute the goal was scored) and national teams matches into account.
+
+If you analyze the algorithm, you can notice that in practice the players at the top of the ranking will be mostly the players which meet the below criteria the most:
+1. They play in the good teams (those teams that win a lot, taking into account with whom they play).
+2. When they play in their team, their team achieves better results than when they are not present on the pitch.
+3. If national teams are included, they increase the level of their national team (meaning that their team play surprisingly well with them taking into account the level of other players in the team).
+
 The above model wouldn't be perfect if we wanted to get predictions of the results of the matches because linear regression can't represent for example that two players are good together (for example Xavi and Iniesta can play well and be strong together). The model assumes that the result of the match is a consequence of the strength of all players individually. So if we wanted to get the predictions of matches, the neural network model would be better because it can represent that two players are good together (and we could add more variables as an input than just players). But if we want to learn what is the influence of individual players to the result, then this model is great.
 
 ### Data set
@@ -64,6 +89,7 @@ The algorithm analyzes football matches. The algorithm is given the following in
 5. Substitutions made (who came in, who came out, in which minute).
 6. Goals (which team scored, in which minute).
 7. The date of the match.
+8. Position on which every player plays. <-- to do
  
 ### Substitutions and goals
 
