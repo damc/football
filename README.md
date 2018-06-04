@@ -71,6 +71,11 @@ Notice that if the algorithm analyzes data from Belgian league and Spanish leagu
 
 Some people can notice that the predictors of this linear regression are collinear. That's true, but if you analyze how they are collinear, then you can realize that this fact doesn't make the algorithm to be useless. It still gives quite accurate results (although if they weren't collinear, then the results would be even more accurate), especially if you take substitutions (and in which minute the goal was scored) and national teams matches into account.
 
+The fact that the predictors are colinear to some extent has three consequences on the results:
+1. The algorithm doesn't actually measure how good the player is when he plays with random players but with the players that he usually plays with <- which is desirable because you don't want to know how good Lewandowski is when you put him to a team of totally random, average players but how good when he plays in Bayern Munich where he usually plays.
+2. If the players X and Y play for the same team and the real skill of X is 5 but the real skill of Y is 3 and there are not many matches/minutes when they don't play toghether, then the algorithm will give them both a skill close to 4, instead of 5 and 3. <- this is in fact disadvantage, but a small disatvantage, because the results indicate that for every player there are enough matches/minutes in the analyzed data when they don't play in the team and the algorithm is still able to learn which player is good and which player is bad basing on those moments when the player didn't play.
+3. The estimated skill of a players depends to some extent on the skill of his substitute. So when a player is high in the ranking it might be caused by the fact that the substitute on his position is weak. <- this is in fact disatvantage.
+
 If you analyze the algorithm, you can notice that in practice the players at the top of the ranking will be mostly the players which meet the below criteria the most:
 1. They play in the good teams (those teams that win a lot, taking into account with whom they play).
 2. When they play in their team, their team achieves better results than when they are not present on the pitch.
