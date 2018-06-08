@@ -42,6 +42,7 @@ World Cup Qualification Worldwide (all of the continents) + World Cup, Copa Amer
 The below ranking shows top 10 best players in the world at the current moment according to the machine learning algorithm:
 
 | place | full name                           | current team    | nationality           | position    | occurences  | skill   |
-| 1     | David Olatukunbo Alaba              | Bayern München  | Austria               | Defender    | 170         | 6.76027 |
-| 1     | Cristiano Ronaldo dos Santos Aveiro | Real Madrid     | Portugal              | Attacker    | 218         | 6.2646  |
-| 3     | Mohamed  Salah Ghaly                | Liverpool       | Egypt                 | Attacker    | 174         | 5.63545 |
+| :---: | :---------------------------------: | :-------------: | :-------------------: | :---------: | :---------: | :-----: |
+| 1     | David Alaba                         | Bayern München  | Austria               | Defender    | 170         | 6.76027 |
+| 2     | Cristiano Ronaldo                   | Real Madrid     | Portugal              | Attacker    | 218         | 6.2646  |
+| 3     | Mohamed  Salah                      | Liverpool       | Egypt                 | Attacker    | 174         | 5.63545 |
