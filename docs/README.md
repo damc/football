@@ -40,3 +40,7 @@ The algorithm analysed 23788 matches and took into account 25196 players – all
 World Cup Qualification Worldwide (all of the continents) + World Cup, Copa America, European Championship, Champions league (including qualifications), Europa league, English league, German league, French league, Italian league, Spanish league, Brazilian league, Argentinian league, Dutch league, Portuguese leauge, Scottish league, Turkish league, Fifa Club World Cup, Copa Libertadores, CONCACAF Champions League, CONCACAF Gold Cup, Confederations Cup, Africa Cup of Nations.
 
 The below ranking shows top 10 best players in the world at the current moment according to the machine learning algorithm:
+
+| 1 | David Olatukunbo Alaba              | 6.76027 |
+| 2 | Cristiano Ronaldo dos Santos Aveiro | 6.2646  |
+| 3 | Mohamed  Salah Ghaly                | 5.63545 |
