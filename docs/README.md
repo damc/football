@@ -29,7 +29,12 @@ Notice that the algorithm does NOT have information about who scored the goals (
 
 # How does the algorithm work
 
-In short, the algorithm is trained to predict the result of matches, but the model is constructed in such way that the weights used in the model to make predictions will converge to the value representing how good the player is.
+In short, the algorithm is trained to predict the result of matches, but the model is constructed in such way that the weights used in the model to make predictions at the end of training will represent how good the player is.
+
+If you analyze the algorithm, you can notice that in practice the players at the top of the ranking will be mostly the players which meet the below criteria the most:
+1. They play in the good teams (those teams that win a lot, taking into account with whom they play).
+2. When they play in their team, their team achieves better results than when they are not present on the pitch.
+3. If national teams are included, they increase the level of their national team (meaning that their team play surprisingly well with them taking into account the level of other players in the team).
 
 You can find more detailed explanation of how it works in the readme file.
 
