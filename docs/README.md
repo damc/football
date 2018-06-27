@@ -1,13 +1,4 @@
-Hello guys.
 
-You’ve maybe heard about The Best Football Player Award. The ranking where Cristiano Ronaldo or Messi always wins and Neymar is at the third place. At the end of the last year, when I heard about this award, I was thinking about the imperfectness of the method how the best player is chosen. The best player is chosen with the votes of journalists and coaches which means for example that if there are more journalists from Spain, the players from Spanish league are more likely to win (to be fair, I’m not sure how it works, but I’m sure it’s not perfect). I was thinking about better way and I’ve created a computer program that uses machine learning to learn how good players are and who is the best football player in the world. My way is not necesarilly better, but it's based on different information therefore it can tell something that we don't know.
-
-Before I show the results and describe the algorithm, I want to ask you about one thing. There are many possible misunderstandings that can arise about this algorithm when you read about this. Because of that, if you want to say that this algorithm sucks, please do the following:
-1. Go to the bottom of that page, to the section "Frequently asked questions and misunderstandings".
-2. See if you can find an answer to your reason why you think that this algorithm sucks. If you can, read it.
-3. If you can't find your reason or you are not satisfied with the answer, then now you can say that this algorithm sucks.
-
-How does it define who is good and who is not? Football is a team sport, therefore we assume that the best player is that player which increases the probability of a team winning the most.
 
 # Data
 
