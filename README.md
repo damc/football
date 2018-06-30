@@ -57,15 +57,15 @@ We want to learn how the presence of a player in the team affects the result of 
 
 Notice that:
 
-y = _x_[1] * _w_[1] + _x_[2] * _w_[2] + ... + _x_[n] * _w_[n] = L - V
+y = _x_[1] * _w_[1] + _x_[2] * _w_[2] + ... + _x_[n] * _w_[n] = _f_[1] + _f_[2] + ... _f_[11] + _s_[1] + _s_[2] + ... + _s_[11]
 
 where:
-L - the sum of all skills of all the players in the first team
-V - the sum of all skills of all the players in the second team
+_f_ - the skills of players in the first team
+_s_ - the skills of players in the second team
 
 In fact, in the program:
 
-y = f(L - V), where f(x) = x^a, where a was chosen basing on what worked best on the validation data (this is how it should be done, in practice I didn't have time for that so I chose the value of 'a' that I thought will be ok :) ).
+y = f(_f_[1] + _f_[2] + ... _f_[11] + _s_[1] + _s_[2] + ... + _s_[11]), where f(x) = x^a, where a was chosen basing on what worked best on the validation data (this is how it should be done, in practice I didn't have time for that so I chose the value of 'a' that I thought will be ok :) ).
 
 Notice that if the algorithm analyzes data from Belgian league and Spanish league, then if the best teams from those league compete with each other in the Champions League or European league, then the algorithm will learn that Spanish league is better than the Belgian league (and it will affect also the teams in those leagues which doesn't play in Champions League).
 
