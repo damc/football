@@ -1,5 +1,7 @@
 
 
+This program creates a ranking of the best football players basing only on the below data.
+
 # Data
 
 The algorithm has analysed all of the matches from the last 5 years to learn who is the best (I took the data from sportmonks.com API).
@@ -15,15 +17,15 @@ These are the data that were given to the algorithm about each match:
 * The date of the match.
 * Positions on which every player played <-- not done yet.
 
-Looks like you can't tell a lot about how good players are basing on that information, doesn't it? That's partly true, but if you analyze a lot of matches and make good use of these information, then you can tell more than it seems.
-Notice that the algorithm does NOT have information about who scored the goals (it has only information about which team scored and in which minute, but not which player scored the goal), which player is popular or which player is most handsome. Therefore, the algorithm is completely objective. It takes into account only who was at the pitch in which minute and in which minute the goal was scored for which team.
+It looks like you can't tell a lot about how good players are basing on that information, doesn't it? That's partly true, but if you analyze a lot of matches and make good use of these information, then you can tell more than it seems.
+Notice that the algorithm does NOT have information about who scored the goals (it has only information about which team scored and in which minute, but not which player scored the goal). It takes into account only who was at the pitch in which minute and in which minute the goal was scored for which team.
 
 # How does the algorithm work
 
 In short, the algorithm is trained to predict the result of matches, but the model is constructed in such way that the weights used in the model to make predictions at the end of training will represent how good the player is.
 
 If you analyze the algorithm, you can notice that in practice the players at the top of the ranking will be mostly the players which meet the below criteria the most:
-1. They play in the good teams (those teams that win a lot, taking into account with whom they play).
+1. They play in good teams (those teams that win a lot, taking into account with whom they play).
 2. When they play in their team, their team achieves better results than when they are not present on the pitch.
 3. If national teams are included, they increase the level of their national team (meaning that their team play surprisingly well with them taking into account the level of other players in the team).
 
