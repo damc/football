@@ -17,8 +17,10 @@ These are the data that were given to the algorithm about each match:
 * The date of the match.
 * Positions on which every player played <-- not done yet.
 
-It looks like you can't tell a lot about how good players are basing on that information, doesn't it? That's partly true, but if you analyze a lot of matches and make good use of these information, then you can tell more than it seems.
+It looks like you can't tell a lot about how good players are basing on that information, doesn't it? This is partly true, but if you analyze a lot of matches and make good use of these information, then you can tell more than it seems.
 Notice that the algorithm does NOT have information about who scored the goals (it has only information about which team scored and in which minute, but not which player scored the goal). It takes into account only who was at the pitch in which minute and in which minute the goal was scored for which team.
+
+The point of this project is that human usually rates the skill of a player by how many goals he scores, how good tricks he makes etc. But this program actually measures how the presence of a player in a team affects the result, from statistical point of view based on previous matches. So for example, let's suppose that there is a player who scores a lot of goals and we all think that he is good. But let's suppose that he always gets good passes from a midfilder and that's why he scores a lot of goals. If we replace him with another striker, the results of the matches will be similar, because the cause of good results of the team in this case is not the striker, but the midfilder. To a human eye, the striker is very good. But in the ranking created by the program, in this case, the midfider will have a high result and the striker will have an average result, because the midfilder is who makes the good result, not the striker. Another example is: let's suppose that there is a defender who regurarly does good job and thanks to him the team achieves good results. For a human eye, he can remain unnoticed. But the program analyzing the results of the matches will rate him high, because when he is on the pitch, the team achieves better results than when he is not.
 
 # How does the algorithm work
 
