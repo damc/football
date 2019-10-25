@@ -37,6 +37,8 @@ https://medium.com/simple-ai/linear-regression-intro-to-machine-learning-6-6e320
 
 https://www.spss-tutorials.com/multiple-linear-regression/
 
+Note: I did this project some time and if I was doing it now, I'd do some things differently (e.g. I'd use OLS instead of SGD as an optimization algorithm).
+
 The algorithm is trained to predict the results of matches (y) taking the players playing in the match as an input (_x_)
 
 Let's suppose that:
