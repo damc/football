@@ -1,10 +1,10 @@
 ﻿# Football
 
-This program creates a ranking of the best football players basing on the analysis of the matches/fixtures downloaded from Sportmonks API.
+This program creates a ranking of the best* football players basing on the analysis of the matches/fixtures downloaded from Sportmonks API.
 
 What is understood by a "good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of a team in which he plays.
 
-In other words, this program finds out which players increase the chances of a team winning the most.
+* This program finds out which players increase the chances of their team winning the most. This is not completely the same as "best players" because if player A is average and his substitute is player B who is very bad, then player A will be very high in the ranking despite being average because his presense in the lineup increases the probability of his team winning a lot (because if he wasn't in the lineup, then the very bad player would play instead of him). In other words, this algorithm is not perfect for finding out who is the best player but still provides useful information.
 
 ## Results
 
