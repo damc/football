@@ -83,8 +83,6 @@ If you analyze the algorithm, you can notice that in practice the players at the
 2. When they play in their team, their team achieves better results than when they are not present on the pitch.
 3. If national teams are included, they increase the level of their national team (meaning that their team play surprisingly well with them when taking into account the level of other players in the team).
 
-The above model wouldn't be perfect if we wanted to get predictions of the results of the matches because linear regression can't represent for example that two players are good together (for example Xavi and Iniesta can play well and be strong together). The model assumes that the result of the match is a consequence of the strength of all players individually. So if we wanted to get the predictions of matches, the neural network model would be better because it can represent that two players are good together (and we could add more variables as an input than just players). But if we want to learn what is the influence of individual players to the result, then this model is great.
-
 ### Data set
 
 The algorithm analyzes football matches. The algorithm is given the following information about each match:
