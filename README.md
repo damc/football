@@ -1,5 +1,7 @@
 ﻿# Football
 
+Note: please keep in mind that I did this project long ago (about 6 years).
+
 This program creates a ranking of the best* football players basing on the analysis of the matches/fixtures downloaded from Sportmonks API.
 
 What is understood by a "good player"? Football is a team sport. Therefore how good the player is is defined as how much he increases the probability of a win of a team in which he plays.
